@@ -1,10 +1,6 @@
-import Database from "better-sqlite3";
-import { mkdirSync, readFileSync } from "node:fs";
-import { dirname } from "node:path";
+import { openDatabase, migrate } from "../src/db.js";
 
-const path = process.env.APP_DB_PATH ?? "data/charging.sqlite3";
-mkdirSync(dirname(path), { recursive: true });
-const database = new Database(path);
-database.exec(readFileSync("migrations/001_schema_versions.sql", "utf8"));
-database.prepare("INSERT OR IGNORE INTO schema_versions(version, applied_at) VALUES(1, ?)").run(new Date().toISOString());
-database.close();
+const db = openDatabase();
+const applied = migrate(db);
+console.log(applied.length ? `已应用迁移版本: ${applied.join(", ")}` : "数据库已是最新");
+db.close();

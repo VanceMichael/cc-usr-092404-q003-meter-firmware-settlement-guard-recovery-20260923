@@ -1,0 +1,173 @@
+{
+  "wave": {
+    "waveId": "W-2026-09-22",
+    "status": "rolled_back",
+    "currentRuleVersion": "metering-v1",
+    "candidateRuleVersion": "metering-v2",
+    "currentRuleDefinition": {
+      "rule_version": "metering-v1",
+      "family": "current",
+      "flat_cents_per_kwh": 100,
+      "attribution": "session_start",
+      "on_regression": "drop_slice",
+      "on_negative": "drop_slice",
+      "created_at": "2026-09-20T00:00:00.000Z"
+    },
+    "candidateRuleDefinition": {
+      "rule_version": "metering-v2",
+      "family": "candidate",
+      "split_at_midnight": true,
+      "tou_bands": [
+        {
+          "hours": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cents_per_kwh": 30
+        },
+        {
+          "hours": [
+            9,
+            10,
+            11,
+            18,
+            19,
+            20
+          ],
+          "cents_per_kwh": 150
+        }
+      ],
+      "default_cents_per_kwh": 100,
+      "on_declared_reset": "retain",
+      "on_undeclared_regression": "drop_slice",
+      "created_at": "2026-09-20T00:00:00.000Z"
+    }
+  },
+  "session": {
+    "sessionId": "S-OK1-2",
+    "deviceId": "D-OK-01",
+    "siteId": "S-HUB-01",
+    "model": "M-A1",
+    "calibrationBatch": "CB-2026Q3",
+    "startedAt": "2026-09-21T15:00:00.000Z",
+    "endedAt": "2026-09-21T17:00:00.000Z",
+    "inputHash": "cdb8d8400950cddd663f6c2b27fe89058344037d6a6c451982fa4b46f8e25a9d"
+  },
+  "readings": [
+    {
+      "seq": 1,
+      "interval": [
+        "2026-09-21T15:00:00.000Z",
+        "2026-09-21T17:00:00.000Z"
+      ],
+      "startReadingMwh": 0,
+      "endReadingMwh": 4000000,
+      "deltaMwh": 4000000,
+      "resetAfterPrevious": false,
+      "arrivedAfterSeal": false,
+      "firmware": {
+        "version": "fw-2.1.0",
+        "digest": "sha256:9f2c1a7e4b6d8f03a5c7e9d1b2f4a6c8",
+        "installedAt": "2026-09-20T02:00:00.000Z",
+        "rollbackReason": null
+      }
+    },
+    {
+      "seq": 2,
+      "interval": [
+        "2026-09-21T17:00:00.000Z",
+        "2026-09-21T17:30:00.000Z"
+      ],
+      "startReadingMwh": 4000000,
+      "endReadingMwh": 6000000,
+      "deltaMwh": 2000000,
+      "resetAfterPrevious": false,
+      "arrivedAfterSeal": false,
+      "firmware": {
+        "version": "fw-2.1.0",
+        "digest": "sha256:9f2c1a7e4b6d8f03a5c7e9d1b2f4a6c8",
+        "installedAt": "2026-09-20T02:00:00.000Z",
+        "rollbackReason": null
+      }
+    }
+  ],
+  "money": {
+    "currentCents": 400,
+    "candidateCents": 260,
+    "deltaCents": -140,
+    "components": {
+      "midnightTransfer": {
+        "2026-09-21": -200,
+        "2026-09-22": 200
+      },
+      "reset": {
+        "2026-09-21": 0,
+        "2026-09-22": 0
+      },
+      "price": {
+        "2026-09-21": 0,
+        "2026-09-22": -140
+      }
+    },
+    "perPeriod": [
+      {
+        "date": "2026-09-21",
+        "currentCents": 400,
+        "candidateCents": 200
+      },
+      {
+        "date": "2026-09-22",
+        "currentCents": 0,
+        "candidateCents": 60
+      }
+    ],
+    "negativeCount": 0,
+    "resetCount": 0,
+    "missingRate": 0
+  },
+  "approvals": [
+    {
+      "role": "clearing_lead",
+      "approver": "李清算",
+      "decision": "approved",
+      "comment": "金额差异可归因，封账部分仅走调整建议",
+      "at": "2026-09-22T01:00:00.000Z"
+    },
+    {
+      "role": "metering_lead",
+      "approver": "张计量",
+      "decision": "approved",
+      "comment": "负增量与缺片门槛有效，隔离项明确",
+      "at": "2026-09-22T01:00:00.000Z"
+    }
+  ],
+  "comparisonRun": {
+    "runId": "fd0f01e3-5c63-42e7-93c6-70e045525574",
+    "status": "done",
+    "comparedAt": "2026-09-23T21:52:32.436Z"
+  },
+  "settlements": [
+    {
+      "periodDate": "2026-09-21",
+      "ruleVersion": "metering-v1",
+      "amountCents": 400,
+      "status": "booked"
+    }
+  ],
+  "adjustmentAdvices": [
+    {
+      "periodDate": "2026-09-21",
+      "bookedRuleVersion": "metering-v1",
+      "bookedCents": 400,
+      "advisedRuleVersion": "metering-v1",
+      "advisedCents": 600,
+      "deltaCents": 200,
+      "reason": "late_data_after_seal",
+      "status": "open"
+    }
+  ]
+}
